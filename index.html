@@ -183,22 +183,44 @@ footer .row{justify-content:space-between;margin-bottom:10px}
 
 <script>
 /* ===== ORODHA YA MOVIE: ongeza movie mpya hapa chini kwa kunakili kipande kimoja ===== */
+const A = "https://archive.org/download/publicmovies212/";
 const MOVIES = [
   {id:1,title:"Big Buck Bunny",year:2008,genre:"Katuni",time:"10 dk",emoji:"🐰",c1:"#2f9e6f",c2:"#16543d",
-   desc:"Sungura mkubwa mpole anakutana na wanyama watundu watatu wanaomsumbua. Filamu ya wazi ya Blender.",
-   video:"https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4"},
-  {id:2,title:"Sintel",year:2010,genre:"Matukio",time:"15 dk",emoji:"🐉",c1:"#d9534f",c2:"#5a1c2f",
-   desc:"Msichana jasiri anamtafuta joka mdogo aliyempenda baada ya kupotezwa. Filamu ya wazi ya Blender.",
-   video:"https://archive.org/download/Sintel/sintel-2048-stereo_512kb.mp4"},
-  {id:3,title:"Tears of Steel",year:2012,genre:"Sayansi",time:"12 dk",emoji:"🤖",c1:"#3b82c4",c2:"#1b2a5c",
-   desc:"Wanasayansi wanajaribu kuokoa dunia kutoka kwa roboti kwenye Amsterdam ya baadaye.",
+   desc:"Sungura mkubwa mpole anakutana na wanyama watundu watatu. Filamu ya wazi ya Blender.",
+   video:"https://download.blender.org/peach/bigbuckbunny_movies/big_buck_bunny_720p_h264.mov"},
+  {id:2,title:"Tears of Steel",year:2012,genre:"Sayansi",time:"12 dk",emoji:"🤖",c1:"#3b82c4",c2:"#1b2a5c",
+   desc:"Wanasayansi wanajaribu kuokoa dunia kutoka kwa roboti. Filamu ya wazi ya Blender.",
    video:"https://download.blender.org/demo/movies/ToS/tears_of_steel_720p.mov"},
-  {id:4,title:"Elephants Dream",year:2006,genre:"Sayansi",time:"11 dk",emoji:"🐘",c1:"#9b59b6",c2:"#3a1c5a",
-   desc:"Wahusika wawili wanaingia kwenye mashine ya ajabu. Filamu ya kwanza ya wazi ya Blender.",
-   video:"https://archive.org/download/ElephantsDream/ed_1024_512kb.mp4"},
-  {id:5,title:"Night of the Living Dead",year:1968,genre:"Kutisha",time:"96 dk",emoji:"🧟",c1:"#6b7280",c2:"#1f2937",
-   desc:"Kundi la watu linajificha ndani ya nyumba wakati wafu wanafufuka. Classic ya public domain.",
-   video:"https://archive.org/download/night_of_the_living_dead/night_of_the_living_dead_512kb.mp4"}
+  {id:3,title:"Night of the Living Dead",year:1968,genre:"Kutisha",time:"96 dk",emoji:"🧟",c1:"#6b7280",c2:"#1f2937",
+   desc:"Watu wanajificha ndani ya nyumba wakati wafu wanafufuka. Classic ya zombie.",
+   video:A+"Night_of_the_Living_Dead.mp4"},
+  {id:4,title:"Nosferatu",year:1922,genre:"Kutisha",time:"94 dk",emoji:"🦇",c1:"#4b5563",c2:"#111827",
+   desc:"Filamu ya kimya ya zamani kuhusu vampire Count Orlok.",
+   video:A+"Nosferatu.mp4"},
+  {id:5,title:"The General",year:1926,genre:"Vichekesho",time:"75 dk",emoji:"🚂",c1:"#c98a2b",c2:"#5a3a0c",
+   desc:"Buster Keaton anafukuzia treni yake iliyoibwa wakati wa vita. Filamu ya kimya.",
+   video:A+"The_General.mp4"},
+  {id:6,title:"Carnival of Souls",year:1962,genre:"Kutisha",time:"78 dk",emoji:"🎪",c1:"#7c4dbd",c2:"#2a1a4d",
+   desc:"Mwanamke aliyenusurika ajali anaandamwa na maono ya ajabu.",
+   video:A+"Carnival_of_Souls.mp4"},
+  {id:7,title:"The Little Shop of Horrors",year:1960,genre:"Vichekesho",time:"72 dk",emoji:"🌱",c1:"#3f9e4a",c2:"#14401a",
+   desc:"Kijana anakuza mmea unaokula watu. Ucheshi mweusi wa kawaida.",
+   video:A+"The_Little_Shop_of_Horrors.mp4"},
+  {id:8,title:"D.O.A.",year:1949,genre:"Msisimko",time:"83 dk",emoji:"🕵️",c1:"#b3453a",c2:"#4a1712",
+   desc:"Mtu aliyewekewa sumu ana siku chache tu za kutafuta muuaji wake.",
+   video:A+"D.O.A._1949.mp4"},
+  {id:9,title:"Detour",year:1945,genre:"Msisimko",time:"68 dk",emoji:"🚗",c1:"#2e7d9a",c2:"#10303d",
+   desc:"Msafiri anajikuta kwenye mtego wa mauaji barabarani. Film noir ya kawaida.",
+   video:A+"Detour.mp4"},
+  {id:10,title:"The Last Man on Earth",year:1964,genre:"Sayansi",time:"86 dk",emoji:"🌍",c1:"#8a6d3b",c2:"#2e2210",
+   desc:"Mtu pekee aliyebaki hai baada ya ugonjwa kuwageuza watu wengine.",
+   video:A+"The_Last_Man_on_Earth.mp4"},
+  {id:11,title:"House on Haunted Hill",year:1959,genre:"Kutisha",time:"75 dk",emoji:"🏚️",c1:"#8e3b3b",c2:"#2b0f0f",
+   desc:"Tajiri anawaalika wageni kukesha usiku kwenye nyumba yenye mizimu.",
+   video:A+"The_House_on_Haunted_Hill.mp4"},
+  {id:12,title:"Charlie Chaplin: Making a Living",year:1914,genre:"Vichekesho",time:"11 dk",emoji:"🎩",c1:"#555b6e",c2:"#1c1f2b",
+   desc:"Filamu fupi ya kwanza ya Charlie Chaplin. Kimya, nyeusi na nyeupe.",
+   video:A+"Charlie_Chaplin_Making_a_Living.mp4"}
 ];
 
 const $ = s => document.querySelector(s);
