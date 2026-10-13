@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moviesite - Tazama na Pakua Movie za Bure</title>
+<meta name="description" content="Tazama na pakua movie za bure kisheria: public domain na Creative Commons.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#1a1530;--surface:#261f47;--surface2:#30285a;--text:#f4effd;--muted:#b4abd3;--accent:#ff5d73;--gold:#ffc857;--r:14px}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+h1,h2,h3,.logo{font-family:'Bricolage Grotesque',system-ui,sans-serif;line-height:1.15}
+a{color:inherit}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.wrap{max-width:1100px;margin:auto;padding:0 16px}
+
+/* header */
+header{position:sticky;top:0;z-index:20;background:rgba(26,21,48,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--surface2)}
+.bar{display:flex;align-items:center;gap:12px;padding:10px 16px;max-width:1100px;margin:auto;flex-wrap:wrap}
+.logo{font-size:1.4rem;font-weight:800;text-decoration:none;color:var(--gold)}
+.logo span{color:var(--accent)}
+nav{display:flex;gap:14px;margin-left:auto;font-size:.95rem}
+nav a{text-decoration:none;color:var(--muted)}
+nav a:hover{color:var(--text)}
+.search{flex:1 1 100%;order:3}
+.search input{width:100%;padding:11px 16px;border-radius:99px;border:1px solid var(--surface2);background:var(--surface);color:var(--text);font:inherit}
+.search input::placeholder{color:var(--muted)}
+@media(min-width:760px){.search{flex:0 1 320px;order:0;margin-left:12px}}
+
+/* hero */
+.hero{padding:44px 0 28px}
+.hero-grid{display:grid;gap:24px;align-items:center}
+@media(min-width:760px){.hero-grid{grid-template-columns:1.2fr 1fr}}
+.hero h1{font-size:clamp(2rem,6vw,3.4rem);font-weight:800;margin-bottom:12px}
+.hero p{color:var(--muted);max-width:52ch;margin-bottom:20px}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;font-size:.85rem;color:var(--gold)}
+.tags b{border:1px solid var(--gold);padding:2px 10px;border-radius:99px;font-weight:500}
+.btn{display:inline-block;border:0;border-radius:10px;padding:11px 20px;font-weight:700;text-decoration:none;background:var(--accent);color:#fff}
+.btn.alt{background:var(--surface2);color:var(--text)}
+.btn:hover{filter:brightness(1.1)}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.feature{aspect-ratio:16/10;border-radius:var(--r);display:grid;place-items:center;font-size:5rem;position:relative;overflow:hidden;cursor:pointer;border:0;width:100%;color:#fff}
+.feature::after{content:"\25B6";position:absolute;right:16px;bottom:12px;width:52px;height:52px;border-radius:50%;background:rgba(0,0,0,.45);display:grid;place-items:center;font-size:1.2rem}
+
+/* filters */
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:28px 0 14px;flex-wrap:wrap}
+.section-head h2{font-size:1.6rem}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px}
+.chip{white-space:nowrap;border:1px solid var(--surface2);background:var(--surface);color:var(--muted);padding:7px 16px;border-radius:99px}
+.chip.on{background:var(--gold);color:#2a1e00;border-color:var(--gold);font-weight:700}
+
+/* grid: ticket-style cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px}
+.card{background:var(--surface);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column}
+.poster{aspect-ratio:2/3;display:grid;place-items:center;font-size:3.4rem;color:#fff;position:relative;border:0;width:100%;text-align:center}
+.poster small{position:absolute;left:10px;right:10px;bottom:10px;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1rem;text-shadow:0 2px 6px rgba(0,0,0,.6)}
+.heart{position:absolute;top:8px;right:8px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(0,0,0,.5);color:#fff;font-size:1.1rem;z-index:2;display:grid;place-items:center}
+.heart.on{color:var(--accent)}
+.info{padding:10px 12px 12px;border-top:2px dashed var(--bg);position:relative}
+.info h3{font-size:1rem}
+.meta{font-size:.82rem;color:var(--muted);margin:2px 0 10px}
+.info .row .btn{padding:7px 10px;font-size:.85rem;flex:1;text-align:center}
+.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:40px 0}
+
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(10,7,24,.88);display:none;align-items:center;justify-content:center;padding:14px;z-index:50;overflow:auto}
+.modal.open{display:flex}
+.box{background:var(--surface);border-radius:var(--r);width:100%;max-width:780px;padding:16px;position:relative;margin:auto}
+.box video{width:100%;border-radius:10px;background:#000;max-height:60vh}
+.box h2{margin:12px 0 4px;font-size:1.5rem}
+.box p{color:var(--muted);margin-bottom:12px}
+.close{position:absolute;top:8px;right:8px;z-index:3;width:38px;height:38px;border-radius:50%;border:0;background:rgba(0,0,0,.6);color:#fff;font-size:1.2rem}
+.note{font-size:.82rem;color:var(--muted);margin-top:10px}
+
+/* info sections */
+.about{display:grid;gap:16px;margin:48px 0}
+@media(min-width:760px){.about{grid-template-columns:repeat(3,1fr)}}
+.about div{background:var(--surface);padding:18px;border-radius:var(--r)}
+.about h3{margin-bottom:6px;color:var(--gold)}
+.about p{color:var(--muted);font-size:.95rem}
+.contact{background:var(--surface);border-radius:var(--r);padding:20px;margin-bottom:40px}
+.contact form{display:grid;gap:10px;margin-top:12px;max-width:520px}
+.contact input,.contact textarea{width:100%;padding:11px 14px;border-radius:10px;border:1px solid var(--surface2);background:var(--bg);color:var(--text);font:inherit}
+footer{border-top:1px solid var(--surface2);padding:26px 0 40px;color:var(--muted);font-size:.88rem}
+footer .row{justify-content:space-between;margin-bottom:10px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--gold);color:#2a1e00;padding:10px 18px;border-radius:99px;font-weight:700;display:none;z-index:60}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="bar">
+    <a class="logo" href="#top">Movie<span>site</span></a>
+    <div class="search"><input id="q" type="search" placeholder="Tafuta movie kwa jina..." aria-label="Tafuta movie"></div>
+    <nav>
+      <a href="#movies">Movie</a>
+      <a href="#favs">Zangu</a>
+      <a href="#about">Kuhusu</a>
+      <a href="#contact">Wasiliana</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>Movie za bure, tazama na pakua popote.</h1>
+      <p>Mkusanyiko wa movie zinazoruhusiwa kisheria: public domain na Creative Commons. Bonyeza movie, tazama papo hapo, au ihifadhi kwenye simu yako.</p>
+      <div class="tags"><b>Bure</b><b>Kisheria</b><b>Inafaa simu</b></div>
+      <div class="row">
+        <a class="btn" href="#movies">Anza kutazama</a>
+        <button class="btn alt" id="randomBtn">Nishangaze</button>
+      </div>
+    </div>
+    <button class="feature" id="featured" aria-label="Cheza movie iliyochaguliwa"></button>
+  </div>
+</section>
+
+<section class="wrap" id="movies">
+  <div class="section-head">
+    <h2>Movie zote</h2>
+    <select id="sort" class="chip" aria-label="Panga">
+      <option value="new">Mpya kwanza</option>
+      <option value="old">Za zamani kwanza</option>
+      <option value="az">A hadi Z</option>
+    </select>
+  </div>
+  <div class="chips" id="chips"></div>
+  <div class="grid" id="grid" style="margin-top:16px"></div>
+
+  <div class="section-head" id="favs"><h2>Orodha yangu</h2></div>
+  <div class="grid" id="favGrid"></div>
+</section>
+
+<section class="wrap about" id="about">
+  <div><h3>Tazama</h3><p>Bonyeza poster yoyote ili kucheza movie kwenye ukurasa huu bila kutoka.</p></div>
+  <div><h3>Pakua</h3><p>Kitufe cha Pakua kinahifadhi movie kwenye simu au kompyuta yako ili uitazame offline.</p></div>
+  <div><h3>Hifadhi</h3><p>Bonyeza moyo kuweka movie kwenye Orodha yangu. Inahifadhiwa kwenye browser yako.</p></div>
+</section>
+
+<section class="wrap contact" id="contact">
+  <h2>Wasiliana nasi</h2>
+  <p style="color:var(--muted)">Una pendekezo la movie ya bure au tatizo la link? Tuandikie.</p>
+  <form id="form">
+    <input name="name" placeholder="Jina lako" required>
+    <input name="email" type="email" placeholder="Barua pepe" required>
+    <textarea name="msg" rows="4" placeholder="Ujumbe wako" required></textarea>
+    <button class="btn" type="submit">Tuma ujumbe</button>
+  </form>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="row"><b>Moviesite</b><a href="#top">Rudi juu</a></div>
+    <p>Tunaonyesha movie za public domain, Creative Commons na zilizo na ruhusa pekee. Kama unamiliki hakimiliki ya maudhui yoyote hapa na unataka iondolewe, tuandikie kupitia fomu ya mawasiliano.</p>
+    <p style="margin-top:8px">&copy; <span id="yr"></span> Moviesite</p>
+  </div>
+</footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="box">
+    <button class="close" id="close" aria-label="Funga">&#10005;</button>
+    <video id="player" controls playsinline preload="metadata"></video>
+    <h2 id="mTitle"></h2>
+    <div class="meta" id="mMeta"></div>
+    <p id="mDesc"></p>
+    <div class="row">
+      <a class="btn" id="mDl" download target="_blank" rel="noopener">Pakua</a>
+      <button class="btn alt" id="mShare">Shiriki</button>
+      <button class="btn alt" id="mFav">Weka kwenye orodha</button>
+    </div>
+    <p class="note" id="mNote"></p>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===== ORODHA YA MOVIE: ongeza movie mpya hapa chini kwa kunakili kipande kimoja ===== */
+const MOVIES = [
+  {id:1,title:"Big Buck Bunny",year:2008,genre:"Katuni",time:"10 dk",emoji:"🐰",c1:"#2f9e6f",c2:"#16543d",
+   desc:"Sungura mkubwa mpole anakutana na wanyama watundu watatu wanaomsumbua. Filamu ya wazi ya Blender.",
+   video:"https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4"},
+  {id:2,title:"Sintel",year:2010,genre:"Matukio",time:"15 dk",emoji:"🐉",c1:"#d9534f",c2:"#5a1c2f",
+   desc:"Msichana jasiri anamtafuta joka mdogo aliyempenda baada ya kupotezwa. Filamu ya wazi ya Blender.",
+   video:"https://archive.org/download/Sintel/sintel-2048-stereo_512kb.mp4"},
+  {id:3,title:"Tears of Steel",year:2012,genre:"Sayansi",time:"12 dk",emoji:"🤖",c1:"#3b82c4",c2:"#1b2a5c",
+   desc:"Wanasayansi wanajaribu kuokoa dunia kutoka kwa roboti kwenye Amsterdam ya baadaye.",
+   video:"https://download.blender.org/demo/movies/ToS/tears_of_steel_720p.mov"},
+  {id:4,title:"Elephants Dream",year:2006,genre:"Sayansi",time:"11 dk",emoji:"🐘",c1:"#9b59b6",c2:"#3a1c5a",
+   desc:"Wahusika wawili wanaingia kwenye mashine ya ajabu. Filamu ya kwanza ya wazi ya Blender.",
+   video:"https://archive.org/download/ElephantsDream/ed_1024_512kb.mp4"},
+  {id:5,title:"Night of the Living Dead",year:1968,genre:"Kutisha",time:"96 dk",emoji:"🧟",c1:"#6b7280",c2:"#1f2937",
+   desc:"Kundi la watu linajificha ndani ya nyumba wakati wafu wanafufuka. Classic ya public domain.",
+   video:"https://archive.org/download/night_of_the_living_dead/night_of_the_living_dead_512kb.mp4"}
+];
+
+const $ = s => document.querySelector(s);
+const store = {get:()=>{try{return JSON.parse(localStorage.getItem("favs")||"[]")}catch(e){return[]}},
+               set:v=>{try{localStorage.setItem("favs",JSON.stringify(v))}catch(e){}}};
+let favs = store.get(), genre = "Zote", current = null;
+
+function toast(t){const e=$("#toast");e.textContent=t;e.style.display="block";clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display="none",1800)}
+const bg = m => `linear-gradient(160deg,${m.c1},${m.c2})`;
+
+function card(m){
+  const on = favs.includes(m.id);
+  return `<article class="card">
+    <button class="poster" style="background:${bg(m)}" data-play="${m.id}" aria-label="Cheza ${m.title}">
+      <span>${m.emoji}</span><small>${m.title}</small>
+      <span class="heart ${on?'on':''}" data-fav="${m.id}" role="button" aria-label="Weka kwenye orodha">${on?'♥':'♡'}</span>
+    </button>
+    <div class="info"><h3>${m.title}</h3><div class="meta">${m.year} &bull; ${m.genre} &bull; ${m.time}</div>
+      <div class="row"><button class="btn" data-play="${m.id}">Tazama</button><a class="btn alt" href="${m.video}" download target="_blank" rel="noopener">Pakua</a></div>
+    </div></article>`;
+}
+
+function render(){
+  const q = $("#q").value.trim().toLowerCase(), s = $("#sort").value;
+  let list = MOVIES.filter(m=>(genre==="Zote"||m.genre===genre)&&m.title.toLowerCase().includes(q));
+  list.sort((a,b)=> s==="new"?b.year-a.year : s==="old"?a.year-b.year : a.title.localeCompare(b.title));
+  $("#grid").innerHTML = list.length? list.map(card).join("") : `<div class="empty">Hakuna movie iliyopatikana. Jaribu jina lingine au aina nyingine.</div>`;
+  const f = MOVIES.filter(m=>favs.includes(m.id));
+  $("#favGrid").innerHTML = f.length? f.map(card).join("") : `<div class="empty">Bado hujaweka movie. Bonyeza moyo kwenye poster kuongeza.</div>`;
+}
+
+function chips(){
+  const g = ["Zote",...new Set(MOVIES.map(m=>m.genre))];
+  $("#chips").innerHTML = g.map(x=>`<button class="chip ${x===genre?'on':''}" data-g="${x}">${x}</button>`).join("");
+}
+
+function open(id){
+  const m = MOVIES.find(x=>x.id==id); if(!m) return; current = m;
+  const v = $("#player"); v.src = m.video; v.poster = "";
+  $("#mTitle").textContent = m.title;
+  $("#mMeta").textContent = `${m.year} • ${m.genre} • ${m.time}`;
+  $("#mDesc").textContent = m.desc;
+  $("#mDl").href = m.video;
+  $("#mNote").textContent = "Video haichezi? Bonyeza Pakua kuifungua moja kwa moja.";
+  favBtn(); $("#modal").classList.add("open"); document.body.style.overflow="hidden";
+  v.play().catch(()=>{});
+}
+function closeM(){const v=$("#player");v.pause();v.removeAttribute("src");v.load();$("#modal").classList.remove("open");document.body.style.overflow=""}
+function favBtn(){$("#mFav").textContent = favs.includes(current.id)?"Ondoa kwenye orodha":"Weka kwenye orodha"}
+function toggleFav(id){
+  favs = favs.includes(id)? favs.filter(x=>x!==id) : [...favs,id];
+  store.set(favs); render(); toast(favs.includes(id)?"Imewekwa kwenye orodha":"Imeondolewa kwenye orodha");
+}
+
+document.addEventListener("click",e=>{
+  const f = e.target.closest("[data-fav]"); if(f){e.stopPropagation();toggleFav(+f.dataset.fav);if(current)favBtn();return}
+  const p = e.target.closest("[data-play]"); if(p){open(p.dataset.play);return}
+  const g = e.target.closest("[data-g]"); if(g){genre=g.dataset.g;chips();render()}
+});
+$("#q").addEventListener("input",render);
+$("#sort").addEventListener("change",render);
+$("#close").onclick = closeM;
+$("#modal").addEventListener("click",e=>{if(e.target.id==="modal")closeM()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeM()});
+$("#mFav").onclick = ()=>{toggleFav(current.id);favBtn()};
+$("#mShare").onclick = async()=>{
+  const data={title:current.title,text:`Tazama ${current.title} bure`,url:location.href};
+  try{ if(navigator.share) await navigator.share(data); else {await navigator.clipboard.writeText(location.href);toast("Link imenakiliwa")} }catch(e){}
+};
+$("#randomBtn").onclick = ()=>open(MOVIES[Math.floor(Math.random()*MOVIES.length)].id);
+$("#form").addEventListener("submit",e=>{e.preventDefault();e.target.reset();toast("Asante! Ujumbe wako umepokelewa.")});
+
+/* featured movie */
+const F = MOVIES[0], fe = $("#featured");
+fe.style.background = bg(F); fe.textContent = F.emoji; fe.onclick = ()=>open(F.id);
+
+$("#yr").textContent = new Date().getFullYear();
+chips(); render();
+</script>
+</body>
+</html>
